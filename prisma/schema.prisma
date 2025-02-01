@@ -1,0 +1,74 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Rutas {
+    idRutas String @id @default(uuid())
+    ruta    String
+    icon    String
+}
+
+model Roles {
+    idRoles  Int        @id @default(autoincrement())
+    rol      String
+    Usuarios Usuarios[]
+}
+
+model Usuarios {
+    idUsuarios String      @id @default(uuid())
+    nombre     String
+    apellido   String
+    email      String      @unique
+    password   String
+    idRol      Int
+    roles      Roles       @relation(fields: [idRol], references: [idRoles])
+    fecha      DateTime    @default(now())
+    estado     Boolean     @default(true)
+    Notas      Notas[]
+    Trabajos   Trabajos[]
+    Proyectos  Proyectos[]
+}
+
+model Notas {
+    idNotas   String   @id @default(uuid())
+    idUsuario String
+    usuario   Usuarios @relation(fields: [idUsuario], references: [idUsuarios])
+    url       String?
+    titulo    String
+    nota      String
+    fecha     DateTime @default(now())
+}
+
+model Trabajos {
+    idTrabajos String   @id @default(uuid())
+    idUsuario  String
+    usuario    Usuarios @relation(fields: [idUsuario], references: [idUsuarios])
+    url        String?
+    nombre     String
+    fecha      DateTime @default(now())
+    Tareas     Tareas[]
+}
+
+model Tareas {
+    idTareas  String   @id @default(uuid())
+    idTrabajo String
+    trabajo   Trabajos @relation(fields: [idTrabajo], references: [idTrabajos])
+    tarea     String
+    orden     Int
+}
+
+model Proyectos {
+    idProyectos String   @id @default(uuid())
+    idUsuario   String
+    usuario     Usuarios @relation(fields: [idUsuario], references: [idUsuarios])
+    url         String?
+    link        String?
+    titulo      String
+    descripcion String
+    fecha       DateTime @default(now())
+}
