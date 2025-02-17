@@ -14,7 +14,6 @@ export class NotasService {
                     idUsuario: idUsuario
                 }
             })
-
             return notas
         } catch (err) {
             throw err
@@ -31,7 +30,6 @@ export class NotasService {
                     nota: datos.nota
                 }
             })
-
             return notas
         } catch (err) {
             throw err
@@ -40,9 +38,7 @@ export class NotasService {
 
     async notas_usuarios_upd(idUsuario: string, datos: NotasUpdDto) {
         try {
-
             await this.notas_usuarios_getnotas(datos.idNotas, idUsuario)
-
             const notas = await this.prismaService.notas.update({
                 where: {
                     idNotas: datos.idNotas
@@ -53,7 +49,6 @@ export class NotasService {
                     nota: datos.nota
                 }
             })
-
             return notas
         } catch (err) {
             throw err
@@ -68,13 +63,11 @@ export class NotasService {
                     idUsuario: idUsuario
                 }
             })
-
             if (notas) {
                 return notas
             } else {
                 throw new BadRequestException('La nota de este usuario no existe en el sistema')
             }
-
         } catch (err) {
             throw err
         }
@@ -82,18 +75,14 @@ export class NotasService {
 
     async notas_usuarios_dlt(idNotas: string, idUsuario: string) {
         try {
-
             await this.notas_usuarios_getnotas(idNotas, idUsuario)
-
             const notas = await this.prismaService.notas.delete({
                 where: {
                     idNotas: idNotas,
                     idUsuario: idUsuario
                 }
             })
-
             return notas
-
         } catch (err) {
             throw err
         }

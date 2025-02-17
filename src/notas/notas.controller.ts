@@ -2,13 +2,14 @@ import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, Param, 
 import { NotasService } from './notas.service';
 import { Response } from 'express';
 import { User } from 'src/core/decorator/user/user.decorator';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { NotasInstDto, NotasUpdDto } from './dto/notas.dto';
 import { AuthGuard } from 'src/core/guards/auth/auth.guard';
 import { RolesGuard } from 'src/core/guards/roles-auth/roles-auth.guard';
 import { Roles } from 'src/core/decorator/roles/roles.decorator';
 
 @Controller('notas')
+@ApiBearerAuth()
 @Roles('Usuario')
 @UseGuards(AuthGuard,RolesGuard)
 export class NotasController {

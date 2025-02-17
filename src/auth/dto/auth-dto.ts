@@ -1,23 +1,34 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 export class AuthLoginDto {
-    @ApiProperty({example:''})
+    @ApiProperty({ example: '' })
     email: string;
 
-    @ApiProperty({example:''})
+    @ApiProperty({ example: '' })
     password: string;
 }
 
 export class AuthRegisterDto {
-    @ApiProperty({example:''})
-    nombre:string;
+    @ApiProperty({ example: '' })
+    nombre: string;
 
-    @ApiProperty({example:''})
-    apellido:string;
+    @ApiProperty({ example: '' })
+    apellido: string;
 
-    @ApiProperty({example:''})
+    @ApiProperty({ example: '' })
     email: string;
 
-    @ApiProperty({example:''})
+    @ApiProperty({ example: '' })
+    password: string;
+}
+
+export class AuthUpdateDto {
+    @ApiProperty({ example: '' })
+    nombre: string;
+
+    @ApiProperty({ example: '' })
+    apellido: string;
+
+    @ApiProperty({ example: '' })
     password: string;
 }

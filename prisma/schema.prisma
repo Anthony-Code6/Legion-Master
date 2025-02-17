@@ -7,12 +7,6 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model Rutas {
-    idRutas String @id @default(uuid())
-    ruta    String
-    icon    String
-}
-
 model Roles {
     idRoles  Int        @id @default(autoincrement())
     rol      String
@@ -71,4 +65,5 @@ model Proyectos {
     titulo      String
     descripcion String
     fecha       DateTime @default(now())
+    estado      Boolean
 }
