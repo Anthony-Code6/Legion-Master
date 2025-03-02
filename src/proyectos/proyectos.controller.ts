@@ -10,8 +10,8 @@ import { ProyectosCreate, ProyectosUpdate } from './dto/proyectos.dto';
 
 @Controller('proyectos')
 @ApiBearerAuth()
-// @Roles('Usuario')
-// @UseGuards(AuthGuard, RolesGuard)
+@Roles('Usuario')
+@UseGuards(AuthGuard, RolesGuard)
 export class ProyectosController {
     constructor(private readonly proyectosServices: ProyectosService) { }
 

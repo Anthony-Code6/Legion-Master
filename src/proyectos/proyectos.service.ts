@@ -11,6 +11,8 @@ export class ProyectosService {
             const proyectos = await this.prismaServices.proyectos.findMany({
                 where: {
                     idUsuario: usuarioId
+                },orderBy:{
+                    titulo:'asc'
                 }
             })
 

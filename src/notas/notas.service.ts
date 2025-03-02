@@ -12,6 +12,8 @@ export class NotasService {
             const notas = await this.prismaService.notas.findMany({
                 where: {
                     idUsuario: idUsuario
+                },orderBy:{
+                    titulo:'asc'
                 }
             })
             return notas

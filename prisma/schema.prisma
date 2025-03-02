@@ -20,7 +20,7 @@ model Usuarios {
     email      String      @unique
     password   String
     idRol      Int
-    roles      Roles       @relation(fields: [idRol], references: [idRoles])
+    roles      Roles       @relation(fields: [idRol], references: [idRoles], onUpdate: Cascade, onDelete: Restrict)
     fecha      DateTime    @default(now())
     estado     Boolean     @default(true)
     Notas      Notas[]
@@ -31,7 +31,7 @@ model Usuarios {
 model Notas {
     idNotas   String   @id @default(uuid())
     idUsuario String
-    usuario   Usuarios @relation(fields: [idUsuario], references: [idUsuarios])
+    usuario   Usuarios @relation(fields: [idUsuario], references: [idUsuarios], onUpdate: Cascade, onDelete: Cascade)
     url       String?
     titulo    String
     nota      String
@@ -41,7 +41,7 @@ model Notas {
 model Trabajos {
     idTrabajos String   @id @default(uuid())
     idUsuario  String
-    usuario    Usuarios @relation(fields: [idUsuario], references: [idUsuarios])
+    usuario    Usuarios @relation(fields: [idUsuario], references: [idUsuarios], onUpdate: Cascade, onDelete: Cascade)
     url        String?
     nombre     String
     fecha      DateTime @default(now())
@@ -51,19 +51,20 @@ model Trabajos {
 model Tareas {
     idTareas  String   @id @default(uuid())
     idTrabajo String
-    trabajo   Trabajos @relation(fields: [idTrabajo], references: [idTrabajos])
+    trabajo   Trabajos @relation(fields: [idTrabajo], references: [idTrabajos], onUpdate: Cascade, onDelete: Cascade)
     tarea     String
     orden     Int
+    estado    Boolean
 }
 
 model Proyectos {
     idProyectos String   @id @default(uuid())
     idUsuario   String
-    usuario     Usuarios @relation(fields: [idUsuario], references: [idUsuarios])
+    usuario     Usuarios @relation(fields: [idUsuario], references: [idUsuarios], onUpdate: Cascade, onDelete: Cascade)
     url         String?
     link        String?
     titulo      String
     descripcion String
     fecha       DateTime @default(now())
-    estado      Boolean
+    estado      Boolean  @default(false)
 }
