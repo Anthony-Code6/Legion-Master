@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { Response } from 'express';
-import { TrabajoCreateDto } from './dto/trabajo.dto';
+import { TrabajoCreateDto, TrabajoUpdateDto } from './dto/trabajo.dto';
 import { User } from 'src/core/decorator/user/user.decorator';
 import { Roles } from 'src/core/decorator/roles/roles.decorator';
 import { AuthGuard } from 'src/core/guards/auth/auth.guard';
@@ -208,6 +208,52 @@ export class TareasController {
         }
     }
 
+    @Put('/trabajo-update')
+    @ApiOperation(
+        {
+            summary: "Edita el trabajo.",
+            description: `
+                Types
+                {
+                    "_trabajo": Trabajo,
+                    "exito": boolean,
+                    "mensajeError": string,
+                    "mensaje": string
+                }
+        
+                Description
+                {    
+                    _trabajo: Lista trabajo
+                    exito: Indicador de éxito  
+                    mensajeError: Mensaje de error,
+                    mensaje: Mensaje
+                } 
+                `
+        }
+    )
+    async trabajo_usuario_upd(@Body() datos: TrabajoUpdateDto, @User('sub') sub: string, @Res() res: Response) {
+        try {
+            const trabajo = await this.tareaServices.trabajo_usuario_upd(sub, datos)
+            return res.status(HttpStatus.OK).json({
+                exito: true,
+                mensajeError: '',
+                mensaje: '',
+                _trabajo: trabajo
+            });
+        } catch (err) {
+            if (err instanceof BadRequestException) {
+                return res.status(HttpStatus.BAD_REQUEST).json({
+                    exito: false,
+                    mensajeError: err.message,
+                });
+            }
+
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+                exito: false,
+                mensajeError: 'Ocurrió un error inesperado.',
+            });
+        }
+    }
 
     @Delete('/trabajo-delete/:id')
     @ApiOperation(

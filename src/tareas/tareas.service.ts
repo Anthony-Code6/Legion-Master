@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { TrabajoCreateDto } from './dto/trabajo.dto';
+import { TrabajoCreateDto, TrabajoUpdateDto } from './dto/trabajo.dto';
 import { TareaCreateDto, TareaUpdateStatuDto } from './dto/tarea.dto';
 
 @Injectable()
@@ -87,6 +87,51 @@ export class TareasService {
             return list
         } catch (error) {
             throw error
+        }
+    }
+
+    async trabajo_usuario_upd(usuarioid: string, datos: TrabajoUpdateDto) {
+        try {
+            await this.trabajo_usuario_getTrabajo(usuarioid, datos.idTrabajos)
+
+            // Eliminar tareas
+            await this.prismaService.tareas.deleteMany({
+                where: {
+                    idTrabajo: datos.idTrabajos
+                }
+            })
+
+            const trabajo_upd = await this.prismaService.trabajos.update({
+                where: {
+                    idTrabajos: datos.idTrabajos,
+                    idUsuario: usuarioid
+                },
+                data: {
+                    //idUsuario: usuarioid,
+                    url: datos.nombre.replace(' ', '-'),
+                    nombre: datos.nombre
+                }
+            })
+
+            const list_tareas = datos.tareas.map((element, index) => {
+                return this.prismaService.tareas.create({
+                    data: {
+                        idTrabajo: datos.idTrabajos,
+                        tarea: element.tarea,
+                        orden: index,
+                        estado: element.estado
+                    }
+                })
+
+            })
+
+            await Promise.all(list_tareas)
+
+            const all_task = await this.trabajo_usuario_getTrabajo(usuarioid,datos.idTrabajos)
+            return all_task
+
+        } catch (err) {
+            throw err
         }
     }
 
