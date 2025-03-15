@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { NotasService } from './notas.service';
-import { PrismaModule } from 'src/prisma/prisma.module';
 import { NotasController } from './notas.controller';
+import { INotasRepository } from './interfaces/notas-repository.interface';
+import { NotasRepository } from './repositories/notas.repository';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-  imports:[PrismaModule],
-  controllers:[NotasController],
-  providers: [NotasService]
+  
+
 })
-export class NotasModule {}
+export class NotasModule { }

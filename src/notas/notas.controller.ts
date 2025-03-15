@@ -3,10 +3,11 @@ import { NotasService } from './notas.service';
 import { Response } from 'express';
 import { User } from 'src/core/decorator/user/user.decorator';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
-import { NotasInstDto, NotasUpdDto } from './dto/notas.dto';
+import { NotasInstDto } from './dto/notas-inst.dto';
 import { AuthGuard } from 'src/core/guards/auth/auth.guard';
 import { RolesGuard } from 'src/core/guards/roles-auth/roles-auth.guard';
 import { Roles } from 'src/core/decorator/roles/roles.decorator';
+import { NotasUpdDto } from './dto/notas-upd.dto';
 
 @Controller('notas')
 @ApiBearerAuth()
